@@ -11,7 +11,7 @@ import {StorageType, WebStorage} from '../Shared/services/Storage/web-storage';
 export class QuranService {
   // https://github.com/Kristories/quran
   // https://raw.githubusercontent.com/Kristories/quran/master/fixtures/_original/source.json
-  private jsonBase = '/JSON';
+  private jsonBase = document.baseURI + 'JSON';
   private jsonArabic = `${this.jsonBase}/source.json`;
   private jsonAnalysed = `${this.jsonBase}/Surahs.json`;
 

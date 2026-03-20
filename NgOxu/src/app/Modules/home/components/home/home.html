@@ -1,0 +1,64 @@
+<div class="Container">
+  <div class="Row G-2">
+
+    <div class="Col-12 Col-lg-3">
+
+      <div class="Card Card-body">
+        <h5 class="Card-title">ToDO</h5>
+
+      </div>
+
+    </div>
+    <div class="Col-12 Col-lg-9">
+
+      <div class="Card Card-body">
+        <h5 class="Card-title">ToDO</h5>
+
+      </div>
+
+      <div class="Card Card-body">
+        <h5 class="Card-title">Used Characters</h5>
+        <div>
+          <span class="FW-bold">Counts:</span> {{ Characters.length }}
+        </div>&nbsp;
+
+        <div class="Row">
+          @if (Characters.length > 0) {
+            @for (char of Characters; track char) {
+              <div class="Col-6 Col-lg-3">
+                <div class="Card Card-body">
+                  <h3 class="Card-title Text-end" dir='rtl'>{{ char.Char }}<span
+                    class="Amiri_Quran MX-3">{{ char.Char }}</span></h3>
+                  <p class="Card-text">{{ char.Name }}</p>
+
+
+                  <ul class="List List-flush" style="max-width: 400px;">
+                    <li class="List-item List-item-action">
+                      UCS: <span class="FW-bold">{{ char.UCS }}</span>
+                    </li>
+                    @if (char.Transliteration) {
+                      <li class="List-item List-item-action">
+                        Transliteration: <span class="FW-bold">{{ char.Transliteration }}</span>
+                      </li>
+                    }
+                    <li class="List-item List-item-action">
+                      Type: <span class="FW-bold">{{ CharType[char.Type] }}</span>
+                    </li>
+                    @if (char.Diacritic) {
+                      <li class="List-item List-item-action">
+                        Diacritic: <span class="FW-bold">{{ DiacriticType[char.Diacritic] }}</span>
+                      </li>
+                    }
+                  </ul>
+                </div>
+              </div>
+            }
+          }
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+

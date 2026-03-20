@@ -1,0 +1,26 @@
+<div class="Example Border MT-2 MB-4">
+  <!--  {{Title}}-->
+  <!--  <ng-content select=".Description"></ng-content>-->
+  <div #body
+       [class.Bg-light]="Overlay" [class.Bg-alpha-20]="Overlay"
+       [class.P-2]="body.children.length>0" [class.P-lg-3]="body.children.length>0">
+    <ng-content select=".Body"></ng-content>
+  </div>
+  <div class="D-flex P-1"  [class.Border-top]="body.children.length>0">
+    <div class="Btn-group Btn-group-sm MS-auto">
+      <!--        <button class="Btn" disabled (click)="CopyLink()" [title]="'TODO: Copy link of this example'">-->
+      <!--          <i class="fa-solid fa-link"></i>-->
+      <!--        </button>-->
+      <button class="Btn" (click)="Expanded=!Expanded" [title]="Expanded?'Hide code':'View code'">
+<!--        <i class="fa-solid fa-code"></i>-->
+        Detail
+      </button>
+      <!--      <button class="Btn Btn-light" disabled [title]="'Edit in StackBlitz'">-->
+      <!--        <i class="fa-solid fa-arrow-up-right-from-square"></i>-->
+      <!--      </button>-->
+    </div>
+  </div>
+  <div class="Border-top P-2 MB-n1" [class.D-none]="!Expanded">
+    <ng-content select=".Card"></ng-content>
+  </div>
+</div>

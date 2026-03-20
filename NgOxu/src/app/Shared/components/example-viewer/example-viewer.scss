@@ -1,0 +1,42 @@
+ExampleViewer {
+  position: relative;
+  display: block;
+}
+
+.Example {
+  .Ex-sq, .Ex-rect, .Ex-pseudo {
+    position: relative;
+    display: inline-flex;
+    width: 100px;
+    height: 100px;
+    margin: 0.75rem;
+
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    vertical-align: middle;
+
+    background-color: hsla(var(--ls-bg-accent-hsl), 4%);
+  }
+
+  .Ex-rect {
+    width: 220px;
+    border-radius: 0.5rem
+  }
+
+  .Ex-pseudo {
+    background-color: transparent !important;
+
+    &:before, &:after {
+      position: absolute;
+      display: block;
+      content: "";
+      width: 75%;
+      height: 75%;
+      left: 12.5%;
+      top: 12.5%;
+      border: 1px solid transparent;
+      background-color: #fafafa80;
+    }
+  }
+}

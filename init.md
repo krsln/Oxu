@@ -46,5 +46,30 @@ ng new NgOxu --style=scss --skip-tests=true --routing=true --strict=true --ssr=t
 ##  
 
 ```shell
+# layout
+nx g @nx/angular:component Layouts/layout-root
+nx g c Layouts/layout-root
+
+ng generate component Layouts/layout-root
+ng g c Layouts/layout-root
+
+# Modules/home
+ng generate module Modules/home --routing
+ng g m Modules/home --routing
+
+## home/components 
+ng g c Modules/home/components/home
+ng g c Modules/home/components/surah
+ng g c Modules/home/components/test
+
+# Shared/
+ng g c Shared/components/example-viewer
+ng generate service Shared/services/Storage/web-storage
+
+#for tab
+ng add ng-primitives
+npm i ng-primitives
+#for pagination
+npm i ngx-pagination
 
 ```

@@ -1,0 +1,62 @@
+<div class="Container">
+  <div class="Row G-2">
+
+    <div class="Col-12 Col-lg-3">
+      <div class="Card Card-body">
+        <h5 class="Card-title">Test</h5>
+
+
+      </div>
+    </div>
+    <div class="Col-12 Col-lg-9">
+
+      <div class="Card Card-body">
+        <h5 class="Card-title">TEST</h5>
+
+        <div>
+          <a class="Btn Btn-primary" [download]="'Surahs'+'.json'" [href]="dataAllUri">All</a>
+          <a class="Btn Btn-primary" [download]="'Surah-'+Surah?.Seq+'.json'" [href]="dataUri">Download</a>
+          @if (Surah) {
+            <pre [innerHTML]="Surah | prettyJson:[true,4]"></pre>
+          }
+        </div>
+      </div>
+      <div class="Card Card-body">
+        <h5 class="Card-title">TEST</h5>
+      </div>
+      <div class="Card Card-body">
+        <h5 class="Card-title">TEST</h5>
+      </div>
+      <div class="Card Card-body">
+        <h5 class="Card-title">TEST</h5>
+      </div>
+
+      <div class="Card Card-body">
+        <h5 class="Card-title">Multi Color Font Test</h5>
+        TODO: Amiri Quran Colored NOT WORKING!!
+        <!--        https://quranacademy.github.io/test-arabic-fonts-->
+        <!--        https://quranacademy.github.io/test-arabic-fonts/fonts.css-->
+
+        <br>
+        Without
+        <h1 class="M-3">{{ Besmele }}</h1>
+
+        Amiri_Quran
+        <h1 class="M-3 Amiri_Quran">
+          <span>{{ Besmele }}&nbsp;&nbsp;&nbsp;</span>
+          <span>قُلْ يَا أَيُّهَا الْكَافِرُونَ</span>
+        </h1>
+        Amiri_Quran-Colored
+        <h1 class="M-3 Amiri_Quran-Colored">
+          <span>{{ Besmele }}&nbsp;&nbsp;&nbsp;</span>
+          <span>قُلْ يَا أَيُّهَا الْكَافِرُونَ</span>
+        </h1>
+
+      </div>
+
+
+    </div>
+
+  </div>
+</div>
+

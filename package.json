@@ -5,9 +5,9 @@
     "ng": "ng",
     "start": "ng serve --port 6236 --open",
     "build": "ng build",
-    "GitHub-build": "ng build --configuration=production --base-href \"https://krsln.github.io/NgOqu/\"",
-    "GitHub-deploy": "npx angular-cli-ghpages --dir=dist/ng-oqu/browser",
-    "GitHub-deploy-IfUGotError": "ngh --no-silent --dir=dist/ng-oqu/browser",
+    "GitHub-build": "ng build --configuration=production --base-href \"https://krsln.github.io/Oxu/\"",
+    "GitHub-deploy": "npx angular-cli-ghpages --dir=dist/ng-oxu/browser",
+    "GitHub-deploy-IfUGotError": "ngh --no-silent --dir=dist/ng-oxu/browser",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:NgOqu": "node dist/ng-oqu/server/server.mjs"

@@ -55,10 +55,10 @@ export class Test implements OnInit{
     //         });
     //       });
     //
-    //       this.Surahs.push(surah);
+    //       this.SurahList.push(surah);
     //     }
     //   });
-    //   console.log('Surahs', this.Surahs);
+    //   console.log('SurahList', this.SurahList);
     // });
 
 

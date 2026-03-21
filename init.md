@@ -64,7 +64,7 @@ ng g c Modules/home/components/test
 
 # Shared/
 ng g c Shared/components/example-viewer
-ng generate service Shared/services/Storage/web-storage
+ng generate service Shared/services/Storage/web-storage --type=service
 
 #for tab
 ng add ng-primitives

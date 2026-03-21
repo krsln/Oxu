@@ -1,4 +1,4 @@
-import {Component, OnInit, signal} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute, RouterLink, RouterLinkActive} from "@angular/router";
 import {CommonModule} from '@angular/common';
 
@@ -16,7 +16,7 @@ import {BaseSurah, BaseVerse, CharType, ILetter, ISurah, IVerse, IWord} from "..
 import {SemanticService} from "../../../../Core/SemanticService";
 import {Arabic} from "../../../../Core/Database/Arabic";
 import {Unicode} from "../../../../Core/Database/Data/Unicode";
-import {StorageType, WebStorage} from "../../../../Shared/services/Storage/web-storage";
+import {StorageType, WebStorageService} from "../../../../Shared/services/Storage/web-storage.service";
 import {IPA} from "../../../../Core/Database/Data/IPA";
 
 
@@ -29,6 +29,7 @@ import {IPA} from "../../../../Core/Database/Data/IPA";
   ],
   templateUrl: './surah.html',
   styleUrl: './surah.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class Surah implements OnInit {
 
@@ -52,7 +53,7 @@ export class Surah implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private semanticService: SemanticService,
-              private webStorage: WebStorage,
+              private webStorage: WebStorageService,
               private quranService: QuranService) {
     this.SurahList = this.quranService.GetBaseSurahList();
   }

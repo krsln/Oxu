@@ -21,7 +21,7 @@ export interface BaseVerse {
 
 export interface IQuran {
   // Source: string;
-  Surahs: ISurah[];
+  SurahList: ISurah[];
 }
 
 export interface ISurah {

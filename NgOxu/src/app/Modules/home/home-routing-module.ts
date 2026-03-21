@@ -10,6 +10,7 @@ const routes: Routes = [
     path: '', data: {breadcrumb: 'Home'},
     children: [
       {path: '', data: {breadcrumb: 'Home'}, component: Home},
+      {path: 'Surah', data: {breadcrumb: 'Surah'}, component: Surah},
       {path: 'Surah/:seq', data: {breadcrumb: 'Surah'}, component: Surah},
       {path: 'Test', data: {breadcrumb: 'Test'}, component: Test},
     ]

@@ -5,7 +5,7 @@
 
       @if (SurahList && SurahList.length > 0) {
         <div class="Card Card-body">
-          <h5 class="Card-title">Surahs</h5>
+          <h5 class="Card-title">Surah List</h5>
           <div class="MB-3">
             <input class="Form-control" type="text" autocomplete="off" placeholder="Filter" #filter
                    (keyup)="OnFilter(filter.value)">
@@ -25,24 +25,71 @@
       <div class="Card Card-body">
         <h5 class="Card-title">Notes</h5>
 
-        <ul class="List List-flush" style="max-width: 400px;">
-          <li class="List-item List-item-action">
-            ?&nbsp;&nbsp;[Kashida / Tatweel]
-          </li>
-          <li class="List-item List-item-action">
-            Secavend
-            <br>
-            <span class="Rounded-circle Bg-red">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> stop
-            <span class="Rounded-circle Bg-green">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> pass
-            <span class="Rounded-pill Bg-yellow PB-1">&nbsp;.:_:.&nbsp;</span> stop+pass
-          </li>
-          <li class="List-item List-item-action">ʔaː &nbsp;&nbsp;Medli Elif</li>
-          <li class="List-item List-item-action">ā &nbsp;&nbsp;Alif Khanjariyah</li>
-          <li class="List-item List-item-action">ā &nbsp;&nbsp;Alif Maqsūra</li>
-          <li class="List-item List-item-action">- Alif Wasla</li>
-          <li class="List-item List-item-action">ā/ī/ū Med (Uzatma)</li>
-          <li class="List-item List-item-action"></li>
-        </ul>
+        <table class="Table Align-middle">
+          <thead>
+          <tr>
+            <th>Char</th>
+            <th>Name</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>
+              <p class="FW-normal MB-1">?</p>
+            </td>
+            <td>
+              <p class="Fg-muted MB-0">[Kashida / Tatweel]</p>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <p class="FW-normal MB-1">ʔaː</p>
+            </td>
+            <td>
+              <p class="Fg-muted MB-0">Medli Elif</p>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <p class="FW-normal MB-1">ā</p>
+            </td>
+            <td>
+              <p class="Fg-muted MB-0">Alif Khanjariyah</p>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <p class="FW-normal MB-1">ā</p>
+            </td>
+            <td>
+              <p class="Fg-muted MB-0">Alif Maqsūra</p>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <p class="FW-normal MB-1">-</p>
+            </td>
+            <td>
+              <p class="Fg-muted MB-0">Alif Wasla</p>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <p class="FW-normal MB-1">ā/ī/ū</p>
+            </td>
+            <td>
+              <p class="Fg-muted MB-0">Med (Uzatma)</p>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <div>
+          Secavend
+          <br>
+          <span class="Rounded-circle Bg-red">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> stop
+          <span class="Rounded-circle Bg-green">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> pass
+          <span class="Rounded-pill Bg-yellow PB-1">&nbsp;.:_:.&nbsp;</span> stop+pass
+        </div>
 
       </div>
 
@@ -56,48 +103,54 @@
           <input class="Form-control" type="text" autocomplete="off" placeholder="Filter in Surah" #filterSurah
                  (keyup)="OnFilterSurah(filterSurah.value)">
         </div>
-        <div>
-          @if (Surah && selectedTab === 'beta') {
-            <div class="Form-check Form-check-inline Form-switch">
-              <input class="Form-check-input" type="checkbox" value=""
-                     (change)="OnChange('Original')" [checked]="Original" id="cbOriginal"/>
-              <label class="Form-check-label" for="cbOriginal">Original</label>
-            </div>
-            <div class="Form-check Form-check-inline Form-switch">
-              <input class="Form-check-input" type="checkbox" value=""
-                     (change)="OnChange('Detailed')" [checked]="Detailed" id="cbDetails"/>
-              <label class="Form-check-label" for="cbDetails">Detailed</label>
-            </div>
-            <div class="Form-check Form-check-inline Form-switch">
-              <input class="Form-check-input" type="checkbox" value=""
-                     (change)="OnChange('Latin')" [checked]="Latin" id="cbEnglish"/>
-              <label class="Form-check-label" for="cbEnglish">Latin Test</label>
-            </div>
-            <div class="Form-check Form-check-inline Form-switch">
-              <input class="Form-check-input" type="checkbox" value=""
-                     (change)="OnChange('LatinIPA')" [checked]="LatinIPA" id="cbIPA"/>
-              <label class="Form-check-label" for="cbIPA">IPA Test</label>
-            </div>
-          }
-        </div>
 
         <div [(ngpTabsetValue)]="selectedTab" ngpTabset>
-          <!-- Pills navs -->
-          <ul class="Nav Nav-pills MB-3" id="tabBasic" role="tablist" ngpTabList>
-            <li class="Nav-item" role="presentation">
-              <a class="Nav-link" id="tabBasic-tab-beta" href="#tabBasic-pills-beta" role="tab"
-                 aria-controls="tabBasic-pills-beta"
-                 [class.Active]="selectedTab === 'beta'" ngpTabButton ngpTabButtonValue="beta"
-                 (click)="$event.preventDefault()" aria-selected="true">Beta</a>
-            </li>
-            <li class="Nav-item" role="presentation">
-              <a class="Nav-link" id="tabBasic-tab-base" href="#tabBasic-pills-base" role="tab"
-                 aria-controls="tabBasic-pills-base"
-                 [class.Active]="selectedTab === 'base'" ngpTabButton ngpTabButtonValue="base"
-                 (click)="$event.preventDefault()" aria-selected="false">Base</a>
-            </li>
-          </ul>
-          <!-- Pills navs -->
+          <div class="Row">
+            <div class="Col-12 Col-md-4">
+              <!-- Pills navs -->
+              <ul class="Nav Nav-pills MB-3" id="tabBasic" role="tablist" ngpTabList>
+                <li class="Nav-item" role="presentation">
+                  <a class="Nav-link" id="tabBasic-tab-beta" href="#tabBasic-pills-beta" role="tab"
+                     aria-controls="tabBasic-pills-beta"
+                     [class.Active]="selectedTab === 'beta'" ngpTabButton ngpTabButtonValue="beta"
+                     (click)="$event.preventDefault()" aria-selected="true">Beta</a>
+                </li>
+                <li class="Nav-item" role="presentation">
+                  <a class="Nav-link" id="tabBasic-tab-base" href="#tabBasic-pills-base" role="tab"
+                     aria-controls="tabBasic-pills-base"
+                     [class.Active]="selectedTab === 'base'" ngpTabButton ngpTabButtonValue="base"
+                     (click)="$event.preventDefault()" aria-selected="false">Base</a>
+                </li>
+              </ul>
+              <!-- Pills navs -->
+            </div>
+            <div class="Col-12 Col-md-8">
+              <div class="D-inline-block PY-3">
+                @if (Surah && selectedTab === 'beta') {
+                  <div class="Form-check Form-check-inline Form-switch">
+                    <input class="Form-check-input" type="checkbox" value=""
+                           (change)="OnChange('Detailed')" [checked]="Detailed" id="cbDetails"/>
+                    <label class="Form-check-label" for="cbDetails">Detailed</label>
+                  </div>
+                  <div class="Form-check Form-check-inline Form-switch">
+                    <input class="Form-check-input" type="checkbox" value=""
+                           (change)="OnChange('Original')" [checked]="Original" id="cbOriginal"/>
+                    <label class="Form-check-label" for="cbOriginal">Original</label>
+                  </div>
+                  <div class="Form-check Form-check-inline Form-switch">
+                    <input class="Form-check-input" type="checkbox" value=""
+                           (change)="OnChange('Latin')" [checked]="Latin" id="cbEnglish"/>
+                    <label class="Form-check-label" for="cbEnglish">Latin Test</label>
+                  </div>
+                  <div class="Form-check Form-check-inline Form-switch">
+                    <input class="Form-check-input" type="checkbox" value=""
+                           (change)="OnChange('LatinIPA')" [checked]="LatinIPA" id="cbIPA"/>
+                    <label class="Form-check-label" for="cbIPA">IPA Test</label>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
           <!-- Pills content -->
           <div class="Tab-content" id="tabBasic-content">
             <div class="Tab-pane Fade" id="tabBasic-pills-beta" role="tabpanel" aria-labelledby="tabBasic-tab-beta"
@@ -118,15 +171,14 @@
                 <pagination-controls (pageChange)="CurrentPage = $event"></pagination-controls>
 
                 @for (verse of BetaItems | paginate: {
-                  itemsPerPage: 10,
-                  currentPage: CurrentPage,
-                  totalItems: BetaItems.length
+                  itemsPerPage: 10, currentPage: CurrentPage, totalItems: BetaItems.length
                 }; track $index) {
                   <div class="MY-2 P-2 Shadow-1">
                     <div class="Position-relative ">
 
                       <!-- Verse Sequence-->
-                      <div class="Position-absolute Top-0 Start-0 Translate-middle Badge Rounded-pill Bg-primary">
+                      <div
+                        class="Position-absolute Top-0 Start-0 Translate-middle Badge Rounded-pill Bg-primary Fg-white">
                         {{ verse.Seq }}
                         <span class="Visually-hidden">Sequence</span>
                       </div>
@@ -134,11 +186,13 @@
                       <!-- Verse in Arabic-->
                       @if (Original) {
                         <div class="Text-end Border-bottom Border-2" dir='rtl'>
-                          <div class="D-inline-block Cursor-pointer MB-3 MX-1 P-1 Shadow-hover"
-                               [class.Bg-info]="filterSurah.value && word.Arabic.indexOf(filterSurah.value)>-1"
-                               *ngFor="let word of verse.Words" (click)="OnWordClick(word)">
-                            <span class="FS-1 Amiri_Quran">{{ word.Arabic }}</span>&nbsp;
-                          </div>
+                          @for (word of verse.Words; track $index) {
+                            <div class="D-inline-block Cursor-pointer MB-3 MX-1 PX-2 PB-2 Shadow-hover"
+                                 [class.Bg-info]="filterSurah.value && word.Arabic.indexOf(filterSurah.value)>-1"
+                                 (click)="OnWordClick(word)">
+                              <span class="FS-1 Amiri_Quran">{{ word.Arabic }}</span>&nbsp;
+                            </div>
+                          }
                         </div>
                       }
 
@@ -230,7 +284,7 @@
                                   <button type="button" class="Btn Position-relative">
                                     <span class="FS-5 Amiri_Quran">{{ letter.Ar }}</span>
                                     <div
-                                      class="Position-absolute Top-0 Start-100 Translate-middle Badge Rounded-pill Bg-danger">
+                                      class="Position-absolute Top-0 Start-100 Translate-middle Badge Rounded-pill Bg-success Fg-white">
                                       {{ AbjadLetter(letter.Ar) }}
                                       <span class="Visually-hidden">unread messages</span>
                                     </div>
@@ -264,19 +318,16 @@
                   <span class="Amiri_Quran ME-2">﴾ {{ BaseSurah.Verses.length }} ﴿</span>
                 </div>
 
-                <ul>
 
                   <pagination-controls (pageChange)="CurrentPage = $event"></pagination-controls>
 
                   @for (verse of BaseItems | paginate: {
-                    itemsPerPage: 10,
-                    currentPage: CurrentPage,
-                    totalItems: BaseItems.length
+                    itemsPerPage: 10, currentPage: CurrentPage, totalItems: BaseItems.length
                   }; track $index) {
-                    <div class="MY-2 P-2 Border-bottom">
+                    <div class="MY-2 P-2 Shadow-1">
                       <div class="Position-relative ">
                         <!-- Verse Sequence-->
-                        <div class="Position-absolute Top-0 Start-0 Translate-middle Badge Rounded-pill Bg-primary">
+                        <div class="Position-absolute Top-0 Start-0 Translate-middle Badge Rounded-pill Bg-primary Fg-white">
                           {{ verse.Seq }}
                           <span class="Visually-hidden">Sequence</span>
                         </div>
@@ -291,7 +342,6 @@
                       </div>
                     </div>
                   }
-                </ul>
 
               }
 

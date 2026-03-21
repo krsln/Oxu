@@ -1,107 +1,113 @@
-import {Injectable} from '@angular/core';
+import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {BehaviorSubject, Observable, of} from "rxjs";
+import {DOCUMENT, isPlatformBrowser} from '@angular/common';
 
-import {BaseSurah, ISurah} from "./Models";
-import {StorageType, WebStorage} from '../Shared/services/Storage/web-storage';
+import {BaseSurah} from "./Models";
+import {StorageType, WebStorageService} from '../Shared/services/Storage/web-storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class QuranService {
-  // https://github.com/Kristories/quran
-  // https://raw.githubusercontent.com/Kristories/quran/master/fixtures/_original/source.json
-  private jsonBase = document.baseURI + 'JSON';
-  private jsonArabic = `${this.jsonBase}/source.json`;
-  private jsonAnalysed = `${this.jsonBase}/Surahs.json`;
 
+  // SurahList: BaseSurah[] = [];
+  private _surahList: BehaviorSubject<BaseSurah[]> = new BehaviorSubject([] as BaseSurah[]);
+  public readonly SurahList: Observable<BaseSurah[]> = this._surahList.asObservable();
 
-  // Surahs: BaseSurah[] = [];
-  private _surahs: BehaviorSubject<BaseSurah[]> = new BehaviorSubject([] as BaseSurah[]);
-  public readonly Surahs: Observable<BaseSurah[]> = this._surahs.asObservable();
+  constructor(@Inject(DOCUMENT) private document: Document,
+              @Inject(PLATFORM_ID) private platformId: any,
+              private http: HttpClient, private webStorage: WebStorageService) {
+    // console.log('isPlatformBrowser', isPlatformBrowser(this.platformId), this.document);
+    if (isPlatformBrowser(this.platformId)) {
+      // https://github.com/Kristories/quran
+      // https://raw.githubusercontent.com/Kristories/quran/master/fixtures/_original/source.json
+      let jsonBase = this.document.baseURI + 'JSON';
+      let jsonArabic = `${jsonBase}/source.json`;
+      // let jsonAnalysed = `${this.jsonBase}/SurahList.json`;
 
-  constructor(private http: HttpClient, private webStorage: WebStorage) {
-    this.GetBaseSurahs().subscribe(() => {
-      console.log('Quran Service | Loaded!');
-    });
-  }
-
-
-  // Sync :p
-  GetBaseSurahs(): Observable<BaseSurah[]> {
-    let surahs = this.webStorage.Get(StorageType.Local, 'Surahs') as BaseSurah[];
-    if (surahs && surahs.length > 0) {
-      console.debug(`GetSurahs() | Get`, surahs.length);
-      this._surahs.next(surahs);
-      return of(surahs);
-    } else {
-      this.http.get(this.jsonArabic).subscribe(data => {
-        let response = data as JsSurah[];
-        surahs = this.jsonToQuran(response as JsSurah[]);
-        this.webStorage.Set(StorageType.Local, 'Surahs', surahs, 600); // 6h
-
-        console.debug(`GetSurahs() | Set`, surahs.length);
-        this._surahs.next(surahs);
-        return surahs;
+      this.LoadInitialData(jsonArabic).subscribe(() => {
+        console.log('Quran Service | Loaded!');
       });
     }
-    return of(surahs);
+  }
+
+
+  // Sync :p
+  LoadInitialData(jsonUrl: string): Observable<BaseSurah[]> {
+    let surahList = this.webStorage.Get(StorageType.Local, 'SurahList') as BaseSurah[];
+    if (surahList && surahList.length > 0) {
+      console.debug(`LoadInitialData() | Get`, surahList.length);
+      this._surahList.next(surahList);
+      return of(surahList);
+    } else {
+      this.http.get(jsonUrl).subscribe(data => {
+        let response = data as JsSurah[];
+        surahList = this.jsonToQuran(response as JsSurah[]);
+        this.webStorage.Set(StorageType.Local, 'SurahList', surahList, 600); // 6h
+
+        console.debug(`LoadInitialData() | Set`, surahList.length);
+        this._surahList.next(surahList);
+        return surahList;
+      });
+    }
+    return of(surahList);
   }
 
   // Sync :p
-  GetSurahs(): Observable<ISurah[]> {
-    return this.http.get<ISurah[]>(this.jsonAnalysed);
-  }
+  // LoadSurahAnalysed(): Observable<ISurah[]> {
+  //   return this.http.get<ISurah[]>(this.jsonAnalysed);
+  // }
 
   Info() {
-    let surahs = this._surahs.getValue();
-    let verseCounts = surahs.map(x => x.Verses.length);
+    let surahList = this._surahList.getValue();
+    let verseCounts = surahList.map(x => x.Verses.length);
     let verseCountTotal = verseCounts?.reduce((partialSum, a) => partialSum + a, 0);
 
     let wordCount = 0;
     let letterCount = 0;
-    surahs?.map(x => x.Verses).forEach(verses => {
+    surahList?.map(x => x.Verses).forEach(verses => {
       wordCount += verses.map(x => x.Words.length).reduce((partialSum, a) => partialSum + a, 0);
 
       let l1Counts = verses.map(x => x.Words.map(z => z.length).reduce((partialSum, a) => partialSum + a, 0));
       letterCount += l1Counts.reduce((partialSum, a) => partialSum + a, 0);
     });
-    console.log('Surahs: ', surahs.length, '\tVerses: ', verseCountTotal, '\tWords: ', wordCount, '\tLetters: ', letterCount);
+    console.log('SurahList: ', surahList.length, '\tVerses: ', verseCountTotal, '\tWords: ', wordCount, '\tLetters: ', letterCount);
   }
 
   GetBaseSurahBySeq(seq: number): BaseSurah | undefined {
-    let surahs = this._surahs.getValue();
-    if (surahs.length === 0) {
-      surahs = this.webStorage.Get(StorageType.Local, 'Surahs') as BaseSurah[];
+    let surahList = this._surahList.getValue();
+    if (surahList.length === 0) {
+      surahList = this.webStorage.Get(StorageType.Local, 'SurahList') as BaseSurah[];
     }
 
-    console.debug(`GetSurahBySeq(${seq})`, surahs?.length);
-    return surahs?.find(x => x.Seq === seq);
+    console.debug(`GetSurahBySeq(${seq})`, surahList?.length);
+    return surahList?.find(x => x.Seq === seq);
   }
 
   GetBaseSurahList(): { Count: number; Seq: number; Name: string }[] | undefined {
-    let surahs = this._surahs.getValue();
-    if (surahs.length === 0) {
-      surahs = this.webStorage.Get(StorageType.Local, 'Surahs') as BaseSurah[];
+    let surahList = this._surahList.getValue();
+    if (surahList.length === 0) {
+      surahList = this.webStorage.Get(StorageType.Local, 'SurahList') as BaseSurah[];
     }
-    let res = surahs?.map(x => ({Seq: x.Seq, Name: x.Name, Count: x.Verses.length}));
+    let res = surahList?.map(x => ({Seq: x.Seq, Name: x.Name, Count: x.Verses.length}));
 
     console.debug(`GetSurahNames()`, res?.length);
     return res;
   }
 
-  // Async
-  GetSurahsAsync() {
-  }
+  // // Async
+  // GetSurahListAsync() {
+  // }
+  //
+  // GetSurahBySeqAsync() {
+  // }
 
-  GetSurahBySeqAsync() {
-  }
-
-  private jsonToQuran(jsSurahs: JsSurah[]): BaseSurah[] {
+  private jsonToQuran(jsSurahList: JsSurah[]): BaseSurah[] {
     let response: BaseSurah[] = [];
-    if (jsSurahs && jsSurahs.length > 0) {
+    if (jsSurahList && jsSurahList.length > 0) {
 
-      jsSurahs.forEach(surah => {
+      jsSurahList.forEach(surah => {
         let baseSurah = {Source: 'JSON', Seq: surah.number, Name: surah.transliteration, Verses: []} as BaseSurah;
         surah.verses.forEach(verse => baseSurah.Verses.push({
           Seq: verse.number,
@@ -119,10 +125,10 @@ export class QuranService {
   // async LoadInitialData() {
   //   // AutoLoad
   //   let data = this.webStorage.Get(StorageType.Local, 'Quran') as {
-  //     Surahs: BaseSurah[];
+  //     SurahList: BaseSurah[];
   //     ExpirationDate: Date | string;
   //   };
-  //   if (!!data && data.Surahs) {
+  //   if (!!data && data.SurahList) {
   //     // console.log('QuranService | LoadQuran | AutoLoad');
   //     this.AutoUnload(data.ExpirationDate);
   //   }
@@ -136,9 +142,9 @@ export class QuranService {
   //     // let ExpDate= new Date(new Date().getTime() + 60 * 1000) // 1min for test
   //     let ExpDate = new Date(new Date().getTime() + 60 * 60 * 6 * 1000); // 6h // 3600 1H
   //
-  //     this.webStorage.Set(StorageType.Local, 'Quran', {Surahs: listSurah, ExpirationDate: ExpDate}, 3); // 6h
-  //     this._surahs.next(listSurah);
-  //     // this.Surahs = listSurah;
+  //     this.webStorage.Set(StorageType.Local, 'Quran', {SurahList: listSurah, ExpirationDate: ExpDate}, 3); // 6h
+  //     this._surahList.next(listSurah);
+  //     // this.SurahList = listSurah;
   //
   //     // console.log('QuranService | LoadQuran | Loader', response);
   //   }
@@ -149,7 +155,7 @@ export class QuranService {
   //   let baseSurah: BaseSurah | undefined = this.webStorage.Get(StorageType.Local, `Surah-${seq}`) as BaseSurah;
   //
   //   if (!baseSurah) {
-  //     // baseSurah = this.Surahs.find(surah => surah.Seq === seq);
+  //     // baseSurah = this.SurahList.find(surah => surah.Seq === seq);
   //     console.log('LoadSurahBySeq | getValue()', baseSurah);
   //     if (baseSurah) {
   //       // this.webStorage.Set(StorageType.Local, `Surah-${baseSurah.Seq}`, baseSurah, 60);

@@ -14,18 +14,12 @@
         <h5 class="Card-title">TEST</h5>
 
         <div>
-          <a class="Btn Btn-primary" [download]="'Surahs'+'.json'" [href]="dataAllUri">All</a>
+          <a class="Btn Btn-primary" [download]="'SurahList'+'.json'" [href]="dataAllUri">All</a>
           <a class="Btn Btn-primary" [download]="'Surah-'+Surah?.Seq+'.json'" [href]="dataUri">Download</a>
           @if (Surah) {
             <pre [innerHTML]="Surah | prettyJson:[true,4]"></pre>
           }
         </div>
-      </div>
-      <div class="Card Card-body">
-        <h5 class="Card-title">TEST</h5>
-      </div>
-      <div class="Card Card-body">
-        <h5 class="Card-title">TEST</h5>
       </div>
       <div class="Card Card-body">
         <h5 class="Card-title">TEST</h5>

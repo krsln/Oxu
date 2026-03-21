@@ -13,7 +13,7 @@ export enum StorageType {
 @Injectable({
   providedIn: 'root'
 })
-export class WebStorage {
+export class WebStorageService {
 
   constructor(@Inject(DOCUMENT) private document: Document,
               @Inject(PLATFORM_ID) private platformId: any) {

@@ -66,10 +66,14 @@ ng g c Modules/home/components/test
 ng g c Shared/components/example-viewer
 ng generate service Shared/services/Storage/web-storage --type=service
 
-#for tab
+# for style
+npm i @qrsln/lootstrap
+npm i @fortawesome/fontawesome-free
+
+# for tab
 ng add ng-primitives
 npm i ng-primitives
-#for pagination
+# for pagination
 npm i ngx-pagination
 
 ```
